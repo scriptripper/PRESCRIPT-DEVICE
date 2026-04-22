@@ -5,13 +5,14 @@ import random
 import keyboard
 import winsound
 
+disable=False
+
 root = Tk()
 root.title("DEVICE:")
 root.iconbitmap("assets/mark.ico")
 root.geometry("133x133")
 root.config(bg = "black")
 root.attributes("-topmost", True)
-
 
 lbl = Label(root, text = "", font=("Perfect DOS VGA 437", 16), bg = "#000000", fg = "#FFFFFF")
 lbl.grid(column=0, row=1, sticky="w")
@@ -96,10 +97,11 @@ def glitch_text(text, index=0):
         root.after(50, glitch_text, text, index + 1)
 
 def clicked():
+    global disable
+
     if disable == True:
-        pass
-    else:
-        disable = True
+        return
+    disable = True
     btn.config(state=DISABLED)
     btn.config(image="",text="[+]")
     btn.grid(column=0, row=1)
@@ -108,12 +110,11 @@ def clicked():
     winsound.PlaySound("assets/index_message_2.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
     intermission = "_Please wait._"
     glitch_text(intermission)
-    
     delay = random.randint(1000, 60000)
     root.after(delay, initiate_prescript)
-    
 
 def initiate_prescript():
+    global disable
     disable = False
     winsound.PlaySound("assets/index_message_1.wav", winsound.SND_ASYNC)
     btn.grid()
