@@ -28,6 +28,7 @@ prescript_jjs1 = [
     "_After landing a hit, ",
     "_After using awakening, ",
     "_As soon as possible, ",
+    f"_Within the next {random.randint(1, 20)} seconds, ",
     "_Without blocking, ",
     "_Without changing characters, ",
     "_Without dying, ",
@@ -39,7 +40,8 @@ prescript_jjs1 = [
     "_Without using move 2, ",
     "_Without using move 3, ",
     "_Without using move 4, ",
-    "_Without activating awakening, "
+    "_Without activating awakening, ",
+    "_Without moving, "
 
 ]
 prescript_jjs2 = [
@@ -62,7 +64,7 @@ prescript_jjs2 = [
     "land move 4._",
     "activate awakening._",
     "offer a greeting._",
-    "repeat the first 5 digits of e._",
+    "recite the first 5 digits of e._",
     "hit behind a player's block._",
     "reposition behind a player._",
     "circle a player._",
@@ -73,22 +75,11 @@ prescript_jjs2 = [
     "change character._",
     "evade an attack._",
     "dash._",
-    f"block for {random.randint(1, 20)} seconds._"
+    f"block for {random.randint(1, 20)} seconds._",
+    "land any non-M1 attack._",
+    "attack a player._"
 
 ]
-
-def clicked():
-    btn.config(state=DISABLED)
-    btn.config(image="",text="[+]")
-    btn.grid(column=0, row=1)
-    lbl.grid(column=0, row=0)
-    root.geometry('175x100')
-    winsound.PlaySound("assets/index_message_2.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
-    intermission = "_Please wait._"
-    glitch_text(intermission)
-    
-    delay = random.randint(1000, 60000)
-    root.after(delay, initiate_prescript)
 
 def glitch_text(text, index=0):
     if index <= len(text):
@@ -104,7 +95,26 @@ def glitch_text(text, index=0):
         lbl.config(text=display)
         root.after(50, glitch_text, text, index + 1)
 
+def clicked():
+    if disable == True:
+        pass
+    else:
+        disable = True
+    btn.config(state=DISABLED)
+    btn.config(image="",text="[+]")
+    btn.grid(column=0, row=1)
+    lbl.grid(column=0, row=0)
+    root.geometry('175x100')
+    winsound.PlaySound("assets/index_message_2.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
+    intermission = "_Please wait._"
+    glitch_text(intermission)
+    
+    delay = random.randint(1000, 60000)
+    root.after(delay, initiate_prescript)
+    
+
 def initiate_prescript():
+    disable = False
     winsound.PlaySound("assets/index_message_1.wav", winsound.SND_ASYNC)
     btn.grid()
     btn.config(state="normal")
