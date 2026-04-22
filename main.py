@@ -29,7 +29,7 @@ prescript_jjs1 = [
     "_After landing a hit, ",
     "_After using awakening, ",
     "_As soon as possible, ",
-    f"_Within the next {random.randint(10, 60)} seconds, ",
+    f"_Within the next {random.randint(30, 60)} seconds, ",
     "_Without blocking, ",
     "_Without changing characters, ",
     "_Without dying, ",
