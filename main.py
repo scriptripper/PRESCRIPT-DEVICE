@@ -184,10 +184,10 @@ prescript_8ba = [
     "_No. Do not ask again._",
     "_A better question exists._",
     "_This action aligns with the prescript's will._",
-    "_..._",
+    "_No comment._",
     "_Delay. Timing is not yet correct._",
     "_Immediate action required._",
-    "_You are not authorized._",
+    "_You are not authorized the answer._",
     "_The result has already been decided._"
 ]
 
