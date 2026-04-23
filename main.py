@@ -8,20 +8,21 @@ import winsound
 disable=False
 
 root = Tk()
-root.title("DEVICE:")
+root.title("[Device]")
 root.iconbitmap("assets/mark.ico")
-root.geometry("240x100")
+root.geometry('400x150')
 root.config(bg = "black")
 root.attributes("-topmost", True)
 
-lbl = Label(root, text = "_Awaiting Input._", wraplength=240, justify="center", font=("Perfect DOS VGA 437", 16), bg = "#000000", fg = "#FFFFFF")
+lbl = Label(root, text = "_Awaiting Input._", wraplength=400, justify="center", font=("Perfect DOS VGA 437", 16), bg = "#000000", fg = "#FFFFFF")
 lbl.pack()
 frame = Frame(root, bg = "#000000")
 frame.pack()
+frame.place(x=0,y=90)
 
 glitch_chars = list("█▒░ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
-choices = ["JJS","BT","8BA"]
+choices = ["JJS","BT","BDGR","8BA","D2"]
 
 prescript_jjs1 = [
     f"_After {random.randint(1, 20)} seconds, ",
@@ -56,7 +57,7 @@ prescript_jjs2 = [
     "kill a player._",
     "jump on a player's head._",
     "use an emote._",
-    "die._",
+    "seek death._",
     f"cease movement for {random.randint(1, 20)} seconds._",
     "advance to M1 distance._",
     "mirror a player's last action._",
@@ -85,7 +86,9 @@ prescript_jjs2 = [
     "dash._",
     f"block for {random.randint(1, 20)} seconds._",
     "land any non-M1 attack._",
-    "attack a player._"
+    "attack a player._",
+    "aurafarm._",
+    "surrender._"
 ]
 prescript_bt1 = [
     f"_At {random.randint(1, 4)} NRG, ",
@@ -163,10 +166,80 @@ prescript_bt2 = [
     "act uncertain._",
     "send an expression._",
     "provide a rating._",
+    "say a one liner._",
     "enter a combat encounter._",
     "allow an enemy to hit you._",
     "seek death._",
     "pass turn._"
+]
+prescript_bdgr1 = [
+    f"_After {random.randint(1, 20)} seconds, ",
+    "_After being attacked, ",
+    "_Before next engagement, ",
+    "_After being ragdolled, ",
+    "_After rolling, ",
+    "_After dying, ",
+    "_After landing a hit, ",
+    "_After using occular prowess, ",
+    "_As soon as possible, ",
+    "_After attacking, ",
+    "_After speaking, ",
+    f"_Within the next {random.randint(30, 120)} seconds, ",
+    "_Without side-dashing, ",
+    "_Without using a throwable, ",
+    "_Without dying, ",
+    "_Without jumping, ",
+    "_Without retreating, ",
+    "_Without reloading, ",
+    "_Without activating stand, ",
+    "_Without moving, ",
+    "_Without eating or drinking, ",
+    "_Without using ocular prowess, "
+]
+prescript_bdgr2 = [
+    "kill a player._",
+    "jump on a player's head._",
+    "land a headshot._",
+    "seek death._",
+    f"cease movement for {random.randint(1, 20)} seconds._",
+    "advance to melee distance._",
+    "mirror a player's last action._",
+    "repeat last prescript command._",
+    "delay next attack._",
+    "ragdoll a player._",
+    f"stop attacking for {random.randint(1, 20)} seconds._",
+    f"stay alive for {random.randint(1, 20)} seconds._",
+    "eat/drink._",
+    "empty chamber of gun #1._",
+    "empty chamber of gun #2._",
+    "reload._",
+    "offer a greeting._",
+    "recite the first 5 digits of e._",
+    "get on your horse._",
+    "get off your horse._",
+    "reposition behind a player._",
+    "circle a player._",
+    f"play passive for {random.randint(1, 20)} seconds._",
+    "assume disadvantage._",
+    "say a one-liner._",
+    "avoid an attack._",
+    "side-dash._",
+    "roll._",
+    "land a shot on a coin._",
+    "land any ranged attack._",
+    "land any melee attack._",
+    "attack a player._",
+    "toss a coin._",
+    "reload._",
+    "use an explosive._",
+    "use dynamite._",
+    "use an ammo pack._",
+    "catch a fish._",
+    "surrender._"
+]
+prescript_d2 = [
+    "_Proceed._",
+    "_Cease._"
 ]
 prescript_8ba = [
     "_The prescript permits this action._",
@@ -212,17 +285,18 @@ def clicked():
         return
     disable = True
     btn.config(state=DISABLED)
-    frame.place(x=0,y=50)
-    root.geometry('190x120')
-    lbl.config(wraplength=190)
+    drp.config(state=DISABLED)
     winsound.PlaySound("assets/index_message_2.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
     intermission = "_Please wait._"
     cv = context.get()
-    if cv == "8BA":
+    if cv == "8BA" or "D2":
         delay = random.randint(1000, 5000)
         glitch_text(intermission)
     elif cv == "JJS":
         delay = random.randint(1000, 60000)
+        glitch_text(intermission)
+    elif cv == "BDGR":
+        delay = random.randint(1000, 120000)
         glitch_text(intermission)
     elif cv == "BT":
         delay = random.randint(1000, 30000)
@@ -234,8 +308,7 @@ def initiate_prescript():
     disable = False
     winsound.PlaySound("assets/index_message_1.wav", winsound.SND_ASYNC)
     btn.config(state="normal")
-    root.geometry('400x120')
-    lbl.config(wraplength=400)
+    drp.config(state="normal")
     cv = context.get()
     if cv == "JJS":
         result1 = random.choice(prescript_jjs1)
@@ -245,8 +318,15 @@ def initiate_prescript():
         result1 = random.choice(prescript_bt1)
         result2 = random.choice(prescript_bt2)
         prescript = f"{result1}{result2}"
+    elif cv == "BDGR":
+        result1 = random.choice(prescript_bdgr1)
+        result2 = random.choice(prescript_bdgr2)
+        prescript = f"{result1}{result2}"
     elif cv == "8BA":
         result = random.choice(prescript_8ba)
+        prescript = f"{result}"
+    elif cv == "D2":
+        result = random.choice(prescript_d2)
         prescript = f"{result}"
     glitch_text(prescript)
     print("_PRESCRIPT RETURNED._")
