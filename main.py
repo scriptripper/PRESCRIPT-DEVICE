@@ -10,14 +10,18 @@ disable=False
 root = Tk()
 root.title("DEVICE:")
 root.iconbitmap("assets/mark.ico")
-root.geometry("133x133")
+root.geometry("240x100")
 root.config(bg = "black")
 root.attributes("-topmost", True)
 
-lbl = Label(root, text = "", font=("Perfect DOS VGA 437", 16), bg = "#000000", fg = "#FFFFFF")
-lbl.grid(column=0, row=1, sticky="w")
+lbl = Label(root, text = "_Awaiting Input._", wraplength=240, justify="center", font=("Perfect DOS VGA 437", 16), bg = "#000000", fg = "#FFFFFF")
+lbl.pack()
+frame = Frame(root, bg = "#000000")
+frame.pack()
 
 glitch_chars = list("█▒░ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+
+choices = ["JJS","BT","8BA"]
 
 prescript_jjs1 = [
     f"_After {random.randint(1, 20)} seconds, ",
@@ -29,6 +33,9 @@ prescript_jjs1 = [
     "_After landing a hit, ",
     "_After using awakening, ",
     "_As soon as possible, ",
+    "_After attacking, ",
+    "_After emoting, ",
+    "_After using a voice taunt, ",
     f"_Within the next {random.randint(30, 60)} seconds, ",
     "_Without blocking, ",
     "_Without changing characters, ",
@@ -79,7 +86,109 @@ prescript_jjs2 = [
     f"block for {random.randint(1, 20)} seconds._",
     "land any non-M1 attack._",
     "attack a player._"
-
+]
+prescript_bt1 = [
+    f"_At {random.randint(1, 4)} NRG, ",
+    "_After landing an attack, ",
+    "_As soon as possible, ",
+    "_Next turn, ",
+    f"_Within the next {random.randint(30, 60)} seconds, ",
+    f"_After {random.randint(1, 20)} seconds, ",
+    "_After being hit, ",
+    "_Before next engagement, ",
+    "_Without retreating, ",
+    "_Without evading, ",
+    "_Without blocking, ",
+    "_Without attacking, ",
+    "_Without using items, ",
+]
+prescript_bt2 = [
+    "perform a base attack on target #1._",
+    "perform a base attack on target #2._",
+    "perform a base attack on target #3._",
+    "perform a base attack on target #4._",
+    "perform a base attack._",
+    "use dynamite on target #1._",
+    "use dynamite on target #2._",
+    "use dynamite on target #3._",
+    "use dynamite on target #4._",
+    "use dynamite._",
+    "use ghost potion._",
+    "use shovel on target #1._",
+    "use shovel on target #2._",
+    "use shovel on target #3._",
+    "use shovel on target #4._",
+    "use shovel._",
+    "evade an attack._",
+    "retreat._",
+    "defend._",
+    "focus._",
+    "use an item on player #1._",
+    "use an item on player #2._",
+    "use an item on player #3._",
+    "use an item on player #4._",
+    "use an item on any player._",
+    "heal any player._",
+    "heal player #1._",
+    "heal player #2._",
+    "heal player #3._",
+    "heal player #4._",
+    "use a strategy option._",
+    "use any special action._",
+    "use any special._",
+    "use special #1._",
+    "use special #2._",
+    "use special #3._",
+    "use special #4._",
+    "next action must target player #1._",
+    "next action must target player #2._",
+    "next action must target player #3._",
+    "next action must target player #4._",
+    "next action must target enemy #1._",
+    "next action must target enemy #2._",
+    "next action must target enemy #3._",
+    "next action must target enemy #4._",
+    "kill enemy #1._",
+    "kill enemy #2._",
+    "kill enemy #3._",
+    "kill enemy #4._",
+    "cease all actions for the turn._",
+    "offer a greeting._",
+    "bid farewell._",
+    "ask a question._",
+    "provide an answer._",
+    "repeat last prescript command._",
+    "recite the first 5 digits of e._",
+    "act silly._",
+    "act uncertain._",
+    "send an expression._",
+    "provide a rating._",
+    "enter a combat encounter._",
+    "allow an enemy to hit you._",
+    "seek death._",
+    "pass turn._"
+]
+prescript_8ba = [
+    "_The prescript permits this action._",
+    "_The prescript forbids it._",
+    "_The answer is known already._",
+    "_Do not deviate. Correct your course._",
+    "_The outcome is acceptable._",
+    "_Proceed. Do not hesitate._",
+    "_Insuficient data. Await further instruction._",
+    "_The path is unclear._",
+    "_You are being tested. Choose carefully._",
+    "_Compliance increases survival probability._",
+    "_Noncompliance will be recorded._",
+    "_The answer is yes._",
+    "_No. Do not ask again._",
+    "_A better question exists._",
+    "_This action aligns with the prescript's will._",
+    "_..._",
+    "_Delay. Timing is not yet correct._",
+    "_Immediate action required._",
+    "_You are not authorized._",
+    "_The result has already been decided._"
 ]
 
 def glitch_text(text, index=0):
@@ -98,44 +207,69 @@ def glitch_text(text, index=0):
 
 def clicked():
     global disable
-
+    print("_PRESCRIPT REQUESTED._")
     if disable == True:
         return
     disable = True
     btn.config(state=DISABLED)
-    btn.config(image="",text="[+]")
-    btn.grid(column=0, row=1)
-    lbl.grid(column=0, row=0)
-    root.geometry('175x100')
+    frame.place(x=0,y=50)
+    root.geometry('190x120')
+    lbl.config(wraplength=190)
     winsound.PlaySound("assets/index_message_2.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
     intermission = "_Please wait._"
-    glitch_text(intermission)
-    delay = random.randint(1000, 60000)
+    cv = context.get()
+    if cv == "8BA":
+        delay = random.randint(1000, 5000)
+        glitch_text(intermission)
+    elif cv == "JJS":
+        delay = random.randint(1000, 60000)
+        glitch_text(intermission)
+    elif cv == "BT":
+        delay = random.randint(1000, 30000)
+        glitch_text(intermission)
     root.after(delay, initiate_prescript)
 
 def initiate_prescript():
     global disable
     disable = False
     winsound.PlaySound("assets/index_message_1.wav", winsound.SND_ASYNC)
-    btn.grid()
     btn.config(state="normal")
-    root.geometry('800x100')
-    result1 = random.choice(prescript_jjs1)
-    result2 = random.choice(prescript_jjs2)
-    prescript = f"{result1}{result2}"
+    root.geometry('400x120')
+    lbl.config(wraplength=400)
+    cv = context.get()
+    if cv == "JJS":
+        result1 = random.choice(prescript_jjs1)
+        result2 = random.choice(prescript_jjs2)
+        prescript = f"{result1}{result2}"
+    elif cv == "BT":
+        result1 = random.choice(prescript_bt1)
+        result2 = random.choice(prescript_bt2)
+        prescript = f"{result1}{result2}"
+    elif cv == "8BA":
+        result = random.choice(prescript_8ba)
+        prescript = f"{result}"
     glitch_text(prescript)
+    print("_PRESCRIPT RETURNED._")
         
 
 keyboard.add_hotkey("ctrl+f", clicked)
-image = PhotoImage(file="assets/device.png")
-btn = Button(root, text = "  ", 
+btn = Button(frame, text = "[+]", 
     font=("Perfect DOS VGA 437", 25), 
     bg = "#000000", fg = "#FFFFFF",
     activebackground="#000000",
     activeforeground="#4269b8",
-    image=image,
     command=clicked)
-btn.grid(column=0, row=0, sticky="w")
+btn.pack(side="left")
+
+context = StringVar()
+context.set("JJS")
+
+drp = OptionMenu(frame, context, *choices)
+drp.config(font=("Perfect DOS VGA 437", 25), 
+    bg = "#000000", fg = "#FFFFFF",
+    activebackground="#000000",
+    activeforeground="#4269b8")
+drp.pack(side="right")
 
 print("_DEVICE INITIATED._")
 root.mainloop()
