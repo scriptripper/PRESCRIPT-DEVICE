@@ -366,7 +366,7 @@ def glitch_text(text, index=0):
                 display += random.choice(glitch_chars)
 
         lbl.config(text=display)
-        root.after(50, glitch_text, text, index + 1)
+        root.after(25, glitch_text, text, index + 1)
 
 def clicked():
     global disable
