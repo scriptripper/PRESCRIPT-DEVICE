@@ -22,7 +22,7 @@ frame.place(x=0,y=90)
 
 glitch_chars = list("█▒░ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
-choices = ["LCB","LCCB","8BA","D2","JJS","BT","BDGR"]
+choices = ["LCB","LCCB","8BA","D2","YOMI","JJS","BT","BDGR"]
 
 prescript_jjs1 = [
     f"_After {random.randint(1, 20)} seconds, ",
@@ -81,8 +81,7 @@ prescript_jjs2 = [
     f"block for {random.randint(1, 20)} seconds._",
     "land any non-M1 attack._",
     "attack a player._",
-    "aurafarm._",
-    "surrender._"
+    "aurafarm._"
 ]
 prescript_bt1 = [
     f"_At {random.randint(1, 4)} NRG, ",
@@ -286,10 +285,10 @@ prescript_lc2 = [
     "stagger any ally._",
     f"eliminate unit #{random.randint(1, 7)}._",
     f"stagger unit #{random.randint(1, 7)}._",
-    "use a Zayin E.G.O._",
-    "use a Teth E.G.O._",
-    "use a He E.G.O._",
-    "use a Waw E.G.O._",
+    "use any Zayin E.G.O._",
+    "use any Teth E.G.O._",
+    "use any He E.G.O._",
+    "use any Waw E.G.O._",
     f"use unit #{random.randint(1, 7)}'s Zayin E.G.O._",
     f"use unit #{random.randint(1, 7)}'s Teth E.G.O._",
     f"use unit #{random.randint(1, 7)}'s He E.G.O._",
@@ -324,7 +323,87 @@ prescript_lc2 = [
     f"perform an unopposed attack against an enemy with unit {random.randint(1, 7)}._",
     "use the winrate button._",
     "use the damage button._"
+]
+prescript_yomi1 = [
+    "_After being hit, ",
+    "_After winning neutral, ",
+    "_After clashing, ",
+    "_Without blocking, ",
+    f"_After {random.randint(2, 5)} turns, ",
+    "_The turn after flipping, ",
+    "_The turn after using a free cancel, ",
+    "_After using whiff cancel, ",
+    "_After using burst cancel, ",
+    "_After bursting, ",
+    "_After waiting, ",
+    "_After using a grab, ",
+    "_After changing stance, ",
+    "_After being parried, ",
+    "_After parrying, ",
+    "_After using random, ",
+    "_Next turn, ",
+    "_After landing a hit, ",
+    "_After using any movement, ",
+    "_After using any normal, ",
+    "_After using any special, ",
+    "_After using any super, ",
+    "_After using any defense, ",
+    "_After using hustle, ",
+    "_As soon as possible, ",
+    "_Next turn, ",
+    "_After bursting, ",
+    "_While in the air, ",
+    "_While in any frame advantage, ",
+    "_While using a free cancel, ",
+    "_Without using any movement, ",
+    "_Without using any normal, ",
+    "_Without using any special, ",
+    "_Without using any super, ",
+    "_Without using any defense, ",
+    "_Without bursting, ",
+    "_Without flipping, ",
+    "_Without using free cancels, ",
+    "_Without using whiff cancel, ",
+    "_Without using burst cancel, ",
+    "_Without waiting, ",
+    "_Without flipping, ",
+    "_Without entering frame disadvantage, ",
+    "_Without grabbing, ",
+    "_Without being parried, ",
+    "_Without parrying, ",
+    "_Without changing stance, ",
+    "_Without holding, ",
+    "_Without dodging, "
+]
 
+prescript_yomi2 = [
+    "get hit._",
+    "win neutral._",
+    "clash._",
+    "flip your next action._",
+    "whiff cancel._",
+    "burst cancel._",
+    "wait._",
+    "hold._",
+    "land a grab_",
+    "swap stances._",
+    "land a parry._",
+    "use random._",
+    "land a hit._",
+    "use any movement._",
+    "use any normal._",
+    "use any special._",
+    "use any super._",
+    "use any defense._",
+    "use hustle._",
+    "use a full hustle._",
+    "land a burst._",
+    "burst._",
+    "jump._",
+    "land a Guard Break._",
+    "dodge._",
+    "block._",
+    "set D.I. to X, Y._"
 ]
 
 prescript_d2 = [
@@ -379,7 +458,7 @@ def clicked():
     winsound.PlaySound("assets/index_message_2.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
     intermission = "_Please wait._"
     cv = context.get()
-    if cv == "8BA" or "D2":
+    if cv == "8BA" or "D2" or "YOMI":
         delay = random.randint(1000, 5000)
         glitch_text(intermission)
     elif cv == "JJS":
@@ -422,6 +501,26 @@ def initiate_prescript():
     elif cv == "LCCB":
         result = random.choice(prescript_lccb)
         prescript = f"{result}"
+    elif cv == "YOMI":
+        result1 = random.choice(prescript_yomi1)
+        d_i = [
+            "-1",
+                f"-0.{random.randint(0, 99)}",
+                "0",
+                f"0.{random.randint(0, 99)}",
+                "1"
+            ]
+        d_i2 = [
+                "-1",
+                f"-0.{random.randint(0, 99)}",
+                "0",
+                f"0.{random.randint(0, 99)}",
+                "1"
+            ]
+        result2 = random.choice(prescript_yomi2)
+        if result2 == "set D.I. to X, Y._":
+            result2 = f"set D.I. to {random.choice(d_i)}, {random.choice(d_i2)}._"
+        prescript = f"{result1}{result2}"
     elif cv == "8BA":
         result = random.choice(prescript_8ba)
         prescript = f"{result}"
